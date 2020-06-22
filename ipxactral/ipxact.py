@@ -59,13 +59,14 @@ class Ipxact(object):
         self.context["date"] = datetime.datetime.now(datetime.timezone.utc)
 
     def generate(self):
-        filenames = [
-            "README.md",
-        ]
+        filenames = []
+        for file in os.listdir(self.templatedir):
+            if file.endswith(".jinja"):
+                filenames.append(file)
         for filen in filenames:
-            template = self.jinja_env.get_template(filen + ".jinja")
+            template = self.jinja_env.get_template(filen)
             txt = template.render(context=self.context)
-            with open(os.path.join(self.outdir, filen), "w") as outfile:
+            with open(os.path.join(self.outdir, filen[:-6]), "w") as outfile:
                 outfile.write(txt)
 
     def run(self):
