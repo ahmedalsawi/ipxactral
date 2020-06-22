@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipxact:catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014"
+xsi:schemaLocation="http://www.accellera.org/XMLSchema/IPXACT/1685-2014/
+http://www.accellera.org/XMLSchema/IPXACT/1685-2014/index.xsd">
+    <ipxact:vendor>VLSI-EDA</ipxact:vendor>
+    <ipxact:library>PoC</ipxact:library>
+    <ipxact:name>PoC</ipxact:name>
+    <ipxact:version>0.1</ipxact:version>
+    <ipxact:description> IP Core Library - Published and maintained by the Chair for VLSI Design,
+        Diagnostics and Architecture, Faculty of Computer Science, Technische Universität Dresden,
+        Germany http://vlsi-eda.inf.tu-dresden.de/ </ipxact:description>
+    <ipxact:catalogs>
+        <ipxact:ipxactFile>
+            <ipxact:vlnv vendor="VLSI-EDA" library="PoC" name="uart" version="0.1"/>
+            <ipxact:name>https://github.com/VLSI-EDA/PoC</ipxact:name>
+            <ipxact:description>Simple UART</ipxact:description>
+        </ipxact:ipxactFile>
+        <ipxact:ipxactFile>
+            <ipxact:vlnv vendor="VLSI-EDA" library="PoC" name="stat_Minimum" version="0.1"/>
+            <ipxact:name>https://github.com/VLSI-EDA/PoC</ipxact:name>
+            <ipxact:description>calculate minimums of an input stream</ipxact:description>
+        </ipxact:ipxactFile>
+    </ipxact:catalogs>
+</ipxact:catalog>
