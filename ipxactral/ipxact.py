@@ -1,6 +1,12 @@
 import xml.etree.ElementTree as ET
 import json
 
+import os
+import sys
+import tempfile
+
+import jinja2
+
 def node_to_dict(node):
     data = {}
     data['tag'] = node.tag
@@ -21,6 +27,10 @@ class Ipxact(object):
         self.filename = filename
         self.xmlroot = None
 
+        ## FIXME init the tempalate correctly
+        self.TEMPLATE_PATH = "templates"
+        self.jinja_env  = jinja2.Environment(loader=jinja2.FileSystemLoader(self.TEMPLATE_PATH))
+
     def parse(self):
         tree = ET.parse(self.filename)
         self.xmlroot = tree.getroot()
@@ -29,3 +39,8 @@ class Ipxact(object):
     def dump_jsonify(self,jsonfile):
         with open(jsonfile, 'w') as outfile:
             json.dump(self.json, outfile,indent=2)
+
+    def generate(self ):
+        template= self.jinja_env.get_template('ral.sv.jinja')
+        txt = template.render(root="fff")
+        print(txt)
