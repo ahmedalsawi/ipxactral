@@ -4,8 +4,11 @@ import json
 import os
 import sys
 import tempfile
+from pathlib import Path
 
 import jinja2
+
+from ipxactral import config
 
 def node_to_dict(node):
     data = {}
@@ -23,20 +26,26 @@ def node_to_dict(node):
     return data
 
 class Ipxact(object):
-    def __init__(self,filename):
+    def __init__(self,filename, templatedir, outdir):
         self.filename = filename
+        self.outdir = outdir
+        self.templatedir = templatedir
+
         self.xmlroot = None
 
-        ## FIXME init the tempalate correctly
-        self.TEMPLATE_PATH = "templates"
-        self.jinja_env  = jinja2.Environment(loader=jinja2.FileSystemLoader(self.TEMPLATE_PATH))
+        # Create output directory if not there already
+        Path(self.outdir).mkdir(parents=True, exist_ok=True)
+
+        # TODO check directory exists
+        self.jinja_env  = jinja2.Environment(loader=jinja2.FileSystemLoader(self.templatedir))
 
     def parse(self):
         tree = ET.parse(self.filename)
         self.xmlroot = tree.getroot()
+        
+    def jsonify(self):
         self.json = node_to_dict(self.xmlroot)
-
-    def dump_jsonify(self,jsonfile):
+        jsonfile = os.path.join(self.outdir,"data.json")
         with open(jsonfile, 'w') as outfile:
             json.dump(self.json, outfile,indent=2)
 
@@ -44,3 +53,8 @@ class Ipxact(object):
         template= self.jinja_env.get_template('ral.sv.jinja')
         txt = template.render(root="fff")
         print(txt)
+
+    def run(self):
+        self.parse()
+        self.jsonify()
+        self.generate()
