@@ -3,6 +3,7 @@ import json
 
 import os
 import sys
+import datetime
 import tempfile
 from pathlib import Path
 
@@ -53,12 +54,22 @@ class Ipxact(object):
         with open(jsonfile, "w") as outfile:
             json.dump(self.json, outfile, indent=2)
 
+    def build_context(self):
+        self.context = {}
+        self.context["date"] = datetime.datetime.now(datetime.timezone.utc)
+
     def generate(self):
-        template = self.jinja_env.get_template("ral.sv.jinja")
-        txt = template.render(root="fff")
-        print(txt)
+        filenames = [
+            "README.md",
+        ]
+        for filen in filenames:
+            template = self.jinja_env.get_template(filen + ".jinja")
+            txt = template.render(context=self.context)
+            with open(os.path.join(self.outdir, filen), "w") as outfile:
+                outfile.write(txt)
 
     def run(self):
         self.parse()
         self.jsonify()
+        self.build_context()
         self.generate()
