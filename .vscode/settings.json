@@ -1,5 +1,7 @@
 {
-    "files.associations": {
-        "*.jinja": "jinja"
-      },
+  "files.associations": {
+    "*.jinja": "jinja"
+  },
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "black"
 }
