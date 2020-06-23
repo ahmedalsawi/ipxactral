@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipxact:component xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.accellera.org/XMLSchema/IPXACT/1685-2014 http://www.accellera.org/XMLSchema/IPXACT/1685-2014/index.xsd">
+ <ipxact:vendor>accellera.org</ipxact:vendor>
+ <ipxact:library>ug</ipxact:library>
+ <ipxact:name>ip</ipxact:name>
+ <ipxact:version>1.0</ipxact:version>
+ <ipxact:busInterfaces>
+ <ipxact:busInterface>
+ <ipxact:name>Slave</ipxact:name>
+ <ipxact:busType vendor="accellera.org" library="amba3" name="APB3" version="1.0"/>
+ <ipxact:slave>
+ <ipxact:memoryMapRef memoryMapRef="RegisterMap"/>
+ </ipxact:slave>
+ </ipxact:busInterface>
+ </ipxact:busInterfaces>
+ <ipxact:memoryMaps>
+ <ipxact:memoryMap>
+ <ipxact:name>RegisterMap</ipxact:name>
+ <ipxact:addressBlock>
+ <ipxact:name>ControlSpace</ipxact:name>
+ <ipxact:baseAddress>'h0</ipxact:baseAddress>
+ <ipxact:range>'h1000</ipxact:range>
+ <ipxact:width>32</ipxact:width>
+ <ipxact:access>read-write</ipxact:access>
+ <ipxact:register>
+ <ipxact:name>STAT</ipxact:name>
+ <ipxact:description>Status register. Collection of Status flags including interrupt status before enabling</ipxact:description>
+ <ipxact:addressOffset>'h0</ipxact:addressOffset>
+ <ipxact:size>32</ipxact:size>
+ <ipxact:field>
+ <ipxact:name>RXFIFO_NE</ipxact:name>
+ <ipxact:description>RX-FIFO Not Empty.</ipxact:description>
+ <ipxact:bitOffset>0</ipxact:bitOffset>
+ <ipxact:resets>
+ <ipxact:reset>
+ <ipxact:value>'h0</ipxact:value>
+ <ipxact:mask>'h1</ipxact:mask>
+ </ipxact:reset>
+ </ipxact:resets>
+ <ipxact:bitWidth>1</ipxact:bitWidth>
+ <ipxact:access>read-only</ipxact:access>
+ <ipxact:enumeratedValues>
+ <ipxact:enumeratedValue usage="read">
+ <ipxact:name>EMPTY</ipxact:name>
+ <ipxact:description>RX-FIFO empty</ipxact:description>
+ <ipxact:value>0</ipxact:value>
+ </ipxact:enumeratedValue>
+ <ipxact:enumeratedValue usage="read">
+ <ipxact:name>NOT_EMPTY</ipxact:name>
+ <ipxact:description>RX-FIFO not empty.</ipxact:description>
+ <ipxact:value>1</ipxact:value>
+ </ipxact:enumeratedValue>
+ </ipxact:enumeratedValues>
+ </ipxact:field>
+ <ipxact:field>
+ <ipxact:name>RXFIFO_OVFL</ipxact:name>
+ <ipxact:description>RX-FIFO Overflow. This interrupt capable status flag indicates an overflow error and associated interrupt status before the enable stage. The flag can only be explicitly cleared by writing 1 to the flag.</ipxact:description>
+ <ipxact:bitOffset>1</ipxact:bitOffset>
+ <ipxact:resets>
+ <ipxact:reset>
+ <ipxact:value>'h0</ipxact:value>
+ <ipxact:mask>'h1</ipxact:mask>
+ </ipxact:reset>
+ </ipxact:resets>
+ <ipxact:bitWidth>1</ipxact:bitWidth>
+ <ipxact:access>read-write</ipxact:access>
+ <ipxact:enumeratedValues>
+ <ipxact:enumeratedValue usage="read">
+ <ipxact:name>NO_OVFL</ipxact:name>
+ <ipxact:description>no overflow</ipxact:description>
+ <ipxact:value>0</ipxact:value>
+ </ipxact:enumeratedValue>
+ <ipxact:enumeratedValue usage="read">
+ <ipxact:name>OVFL</ipxact:name>
+ <ipxact:description>overflow error</ipxact:description>
+ <ipxact:value>1</ipxact:value>
+ </ipxact:enumeratedValue>
+ <ipxact:enumeratedValue usage="write">
+ <ipxact:name>NO_EFFECT</ipxact:name>
+ <ipxact:description>no effect</ipxact:description>
+ <ipxact:value>0</ipxact:value>
+ </ipxact:enumeratedValue>
+ <ipxact:enumeratedValue usage="write">
+ <ipxact:name>CLEAR</ipxact:name>
+ <ipxact:description>clear flag</ipxact:description>
+ <ipxact:value>1</ipxact:value>
+ </ipxact:enumeratedValue>
+ </ipxact:enumeratedValues>
+ <ipxact:modifiedWriteValue>oneToClear</ipxact:modifiedWriteValue>
+ </ipxact:field>
+ <ipxact:field>
+ <ipxact:name>RXSTATE</ipxact:name>
+ <ipxact:description>RX state. This field indicates the state of the receiver.</ipxact:description>
+ <ipxact:bitOffset>2</ipxact:bitOffset>
+ <ipxact:resets>
+ <ipxact:reset>
+ <ipxact:value>'h0</ipxact:value>
+ <ipxact:mask>'h3</ipxact:mask>
+ </ipxact:reset>
+ </ipxact:resets>
+ <ipxact:bitWidth>2</ipxact:bitWidth>
+ <ipxact:access>read-only</ipxact:access>
+ <ipxact:enumeratedValues>
+ <ipxact:enumeratedValue usage="read">
+ <ipxact:name>IDLE</ipxact:name>
+ <ipxact:description>Idle state</ipxact:description>
+ <ipxact:value>0</ipxact:value>
+ </ipxact:enumeratedValue>
+ <ipxact:enumeratedValue usage="read">
+ <ipxact:name>BUSY</ipxact:name>
+ <ipxact:description>Busy state</ipxact:description>
+ <ipxact:value>1</ipxact:value>
+ </ipxact:enumeratedValue>
+ <ipxact:enumeratedValue usage="read">
+ <ipxact:name>SYNC</ipxact:name>
+ <ipxact:description>Sync state</ipxact:description>
+ <ipxact:value>2</ipxact:value>
+ </ipxact:enumeratedValue>
+ </ipxact:enumeratedValues>
+ </ipxact:field>
+ <ipxact:field>
+ <ipxact:name>reserved0</ipxact:name>
+ <ipxact:displayName>RESERVED</ipxact:displayName>
+ <ipxact:description>reserved. Read value undefined. Should be written 0.</ipxact:description>
+ <ipxact:bitOffset>4</ipxact:bitOffset>
+ <ipxact:resets>
+ <ipxact:reset>
+ <ipxact:value>'h0</ipxact:value>
+ <ipxact:mask>'h0</ipxact:mask>
+ </ipxact:reset>
+ </ipxact:resets>
+ <ipxact:bitWidth>28</ipxact:bitWidth>
+ <ipxact:access>read-only</ipxact:access>
+ <ipxact:reserved>true</ipxact:reserved>
+ </ipxact:field>
+ </ipxact:register>
+ </ipxact:addressBlock>
+ <ipxact:addressUnitBits>8</ipxact:addressUnitBits>
+ </ipxact:memoryMap>
+ </ipxact:memoryMaps>
+</ipxact:component>
