@@ -1,30 +1,29 @@
-class {{ context.reg_name }} extends uvm_reg;
-  rand uvm_reg_field  En;
-  rand uvm_reg_field  Mode;
-  rand uvm_reg_field  Halt;
-  rand uvm_reg_field  Auto;
-  rand uvm_reg_field  Speed;
- 
-   function new (string name = {{ context.reg_name }} );
-    super.new (name, {{ context.reg_size }} , UVM_NO_COVERAGE);
+class {{ context["name"]}} extends uvm_reg;
+
+  {% for field in context["fields"] %}
+  rand uvm_reg_field {{ field["name"] }};
+  {% endfor %}
+
+  function new (string name = "{{ context["name"] }}" );
+    super.new (name, {{ context.size }} , UVM_NO_COVERAGE);
   endfunction
 
 
     virtual function void build ();
- 
-    // Create object instance for each field
-    this.En     = uvm_reg_field::type_id::create ("En");
-    this.Mode   = uvm_reg_field::type_id::create ("Mode");
-    this.Halt   = uvm_reg_field::type_id::create ("Halt");
-    this.Auto   = uvm_reg_field::type_id::create ("Auto");
-    this.Speed  = uvm_reg_field::type_id::create ("Speed");
- 
-    // Configure each field
-    this.En.configure (this, 1, 0, "RW", 0, 1'h0, 1, 1, 1);
-    this.Mode.configure (this, 3, 1, "RW", 0, 3'h2, 1, 1, 1);
-    this.Halt.configure (this, 1, 4, "RW", 0, 1'h1, 1, 1, 1);
-    this.Auto.configure (this, 1, 5, "RW", 0, 1'h0, 1, 1, 1);
-    this.Speed.configure (this, 5, 11, "RW", 0, 5'h1c, 1, 1, 1);
+
+  {% for field in context["fields"] %}
+    this.{{ field["name"] }}   = uvm_reg_field::type_id::create ("{{ field["name"] }}");
+    this.{{ field["name"] }}.configure (this, 
+                                      {{ field["bitWidth"] }},
+                                       0, 
+                                       "{{ field["access"] }}", 
+                                       0, 
+                                       1'h0,
+                                       1,
+                                       1,
+                                       1);
+  {% endfor %}
+
   endfunction
 endclass
  
