@@ -79,10 +79,10 @@ class Ipxact(object):
         self.build_memorymaps()
 
     def generate(self):
-        filenames = []
-        for file in os.listdir(self.templatedir):
-            if file.endswith(".jinja"):
-                filenames.append(file)
+        filenames = ["README.md.jinja"]
+        # for file in os.listdir(self.templatedir):
+        #     if file.endswith(".jinja"):
+        #         filenames.append(file)
         for filen in filenames:
             template = self.jinja_env.get_template(filen)
             txt = template.render(context=self.context)

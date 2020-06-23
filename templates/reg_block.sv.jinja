@@ -1,0 +1,34 @@
+class reg_block extends uvm_reg_block;
+  rand   reg_ctl   m_reg_ctl;
+  rand   reg_stat   m_reg_stat;
+  rand   reg_inten   m_reg_inten;
+ 
+  function new (string name = "reg_block");
+    super.new (name, UVM_NO_COVERAGE);
+  endfunction
+ 
+  virtual function void build ();
+ 
+    // Create an instance for every register
+    this.m_reg_ctl = reg_ctl::type_id::create ("m_reg_ctl", , get_full_name);
+    this.m_reg_stat = reg_stat::type_id::create ("m_reg_stat", , get_full_name);
+    this.m_reg_inten = reg_inten::type_id::create ("m_reg_inten", , get_full_name);
+ 
+    // Configure every register instance
+    this.m_reg_ctl.configure (this, null, "");
+    this.m_reg_stat.configure (this, null, "");
+    this.m_reg_inten.configure (this, null, "");
+ 
+    // Call the build() function to build all register fields within each register
+    this.m_reg_ctl.build();
+    this.m_reg_stat.build();
+    this.m_reg_inten.build();
+ 
+    // Add these registers to the default map
+    this.default_map = create_map ("", 0, 4, UVM_LITTLE_ENDIAN, 0);
+    this.default_map.set_base_addr('h400);  
+    this.default_map.add_reg (this.m_reg_ctl, `UVM_REG_ADDR_WIDTH'h0, "RW", 0);
+    this.default_map.add_reg (this.m_reg_stat, `UVM_REG_ADDR_WIDTH'h4, "RO", 0);
+    this.default_map.add_reg (this.m_reg_inten, `UVM_REG_ADDR_WIDTH'h8, "RW", 0);
+  endfunction
+endclass
