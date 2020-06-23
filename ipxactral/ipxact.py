@@ -6,6 +6,7 @@ import sys
 import datetime
 import tempfile
 from pathlib import Path
+import logging
 
 import jinja2
 
@@ -28,6 +29,14 @@ def node_to_dict(node):
     return data
 
 
+def find_first(start, tag):
+    for child in start:
+        if tag in child.tag:
+            return child
+        else:
+            find_first(child, tag)
+
+
 class Ipxact(object):
     def __init__(self, filename, templatedir, outdir):
         self.filename = filename
@@ -35,6 +44,7 @@ class Ipxact(object):
         self.templatedir = templatedir
 
         self.xmlroot = None
+        self.treeDict = {}
 
         # Create output directory if not there already
         Path(self.outdir).mkdir(parents=True, exist_ok=True)
@@ -48,15 +58,25 @@ class Ipxact(object):
         tree = ET.parse(self.filename)
         self.xmlroot = tree.getroot()
 
-    def jsonify(self):
-        self.json = node_to_dict(self.xmlroot)
-        jsonfile = os.path.join(self.outdir, "data.json")
+    def jsonify(self, filename="data.json"):
+        self.treeDict = node_to_dict(self.xmlroot)
+        jsonfile = os.path.join(self.outdir, filename)
         with open(jsonfile, "w") as outfile:
-            json.dump(self.json, outfile, indent=2)
+            json.dump(self.treeDict, outfile, indent=2)
+
+    def build_memorymaps(self):
+        # Extract MemoryMaps
+        mmaps_node = find_first(self.xmlroot, "memoryMaps")
+        if mmaps_node is None:
+            logging.warning("No MemoryMaps found in IPXACT file.")
+            return
+        print(mmaps_node.tag)
 
     def build_context(self):
         self.context = {}
         self.context["date"] = datetime.datetime.now(datetime.timezone.utc)
+
+        self.build_memorymaps()
 
     def generate(self):
         filenames = []
