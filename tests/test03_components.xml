@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipxact:component xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.accellera.org/
+XMLSchema/IPXACT/1685-2014 http://www.accellera.org/XMLSchema/IPXACT/1685-2014/index.xsd">
+<ipxact:vendor>accellera.org</ipxact:vendor>
+<ipxact:library>i2s</ipxact:library>
+<ipxact:name>master_transmitter</ipxact:name>
+<ipxact:version>1.0</ipxact:version>
+<ipxact:model>
+<ipxact:views>
+<ipxact:view>
+<ipxact:name>interface</ipxact:name>
+<ipxact:componentInstantiationRef>hdl-interface</ipxact:componentInstantiationRef>
+</ipxact:view>
+</ipxact:views>
+<ipxact:instantiations>
+<ipxact:componentInstantiation>
+<ipxact:name>hdl-interface</ipxact:name>
+<ipxact:language>verilog</ipxact:language>
+<ipxact:libraryName>master_transmitterlib</ipxact:libraryName>
+<ipxact:moduleName>master_transmitter</ipxact:moduleName>
+<ipxact:moduleParameters>
+<ipxact:moduleParameter parameterId="my_param" resolve="user" type="longint">
+<ipxact:name>my_param</ipxact:name>
+<ipxact:value>0</ipxact:value>
+</ipxact:moduleParameter>
+</ipxact:moduleParameters>
+<ipxact:fileSetRef>
+<ipxact:localName>fs-interface</ipxact:localName>
+</ipxact:fileSetRef>
+</ipxact:componentInstantiation>
+</ipxact:instantiations>
+<ipxact:ports>
+<ipxact:port>
+<ipxact:name>sck</ipxact:name>
+<ipxact:wire>
+<ipxact:direction>out</ipxact:direction>
+</ipxact:wire>
+</ipxact:port>
+<ipxact:port>
+<ipxact:name>ws</ipxact:name>
+<ipxact:wire>
+<ipxact:direction>out</ipxact:direction>
+</ipxact:wire>
+</ipxact:port>
+<ipxact:port>
+<ipxact:name>sd</ipxact:name>
+<ipxact:wire>
+<ipxact:direction>out</ipxact:direction>
+<ipxact:wireTypeDefs>
+<ipxact:wireTypeDef>
+<ipxact:typeName constrained="false">reg</ipxact:typeName>
+<ipxact:viewRef>interface</ipxact:viewRef>
+</ipxact:wireTypeDef>
+</ipxact:wireTypeDefs>
+</ipxact:wire>
+</ipxact:port>
+</ipxact:ports>
+</ipxact:model>
+<ipxact:fileSets>
+<ipxact:fileSet>
+<ipxact:name>fs-interface</ipxact:name>
+<ipxact:file>
+<ipxact:name>../INTERFACE/master_transmitter.v</ipxact:name>
+<ipxact:fileType>verilogSource</ipxact:fileType>
+<ipxact:logicalName>master_transmitterlib</ipxact:logicalName>
+</ipxact:file>
+</ipxact:fileSet>
+</ipxact:fileSets>
+</ipxact:component>

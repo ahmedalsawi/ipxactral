@@ -10,7 +10,11 @@ import logging
 
 import jinja2
 
+
+
 from ipxactral import config
+
+from ipxacttree.ipxacttree import IPXACTTree
 
 ns = {"ipxact": "http://www.accellera.org/XMLSchema/IPXACT/1685-2014"}
 
@@ -60,6 +64,8 @@ class Ipxact(object):
             loader=jinja2.FileSystemLoader(self.templatedir)
         )
 
+        self.it = IPXACTTree(self.filename)
+
     def parse(self):
         tree = ET.parse(self.filename)
         self.xmlroot = tree.getroot()
@@ -69,6 +75,10 @@ class Ipxact(object):
         jsonfile = os.path.join(self.outdir, filename)
         with open(jsonfile, "w") as outfile:
             json.dump(self.treeDict, outfile, indent=2)
+
+    def build_registers(self):
+        for reg in self.it.findall("register"):
+            print(reg)
 
     def build_memorymaps(self):
         # Extract MemoryMaps
@@ -126,18 +136,19 @@ class Ipxact(object):
                             .find("ipxact:value", ns)
                             .text
                         )
-                    reg_template = self.jinja_env.get_template("reg.sv.jinja")
-                    txt = reg_template.render(context=reg_context)
-                    print(txt)
-                block_template = self.jinja_env.get_template("reg_block.sv.jinja")
-                txt = block_template.render(context=block_context)
-                print(txt)
+                #    reg_template = self.jinja_env.get_template("reg.sv.jinja")
+                #    txt = reg_template.render(context=reg_context)
+                #    print(txt)
+                #block_template = self.jinja_env.get_template("reg_block.sv.jinja")
+                #txt = block_template.render(context=block_context)
+                #print(txt)
 
     def build_context(self):
         self.context = {}
         self.context["date"] = datetime.datetime.now(datetime.timezone.utc)
 
-        self.build_memorymaps()
+        #self.build_memorymaps()
+        self.build_registers()
 
     def generate(self):
         filenames = ["README.md.jinja"]

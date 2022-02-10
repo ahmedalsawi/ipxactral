@@ -5,5 +5,7 @@ setup(
     version="0.1",
     packages=["ipxactral"],
     entry_points={"console_scripts": ["ipxactral = ipxactral.main:main",]},
-    install_requires=["jinja2",],
+    install_requires=["jinja2",
+        'ipxacttree @ git+https://github.com/ahmedalsawi/ipxacttree',
+        ],
 )
